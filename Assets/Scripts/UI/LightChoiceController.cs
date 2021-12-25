@@ -34,6 +34,7 @@ namespace UI {
                 StartCoroutine(buttonCooldownCoroutine(0.5f));
                 var correct = carController.activeObstacle.makeChoice(0);
                 carController.setVelocity(0f);
+                carController.madeChoice();
                 if (!correct) {
                     carController.takeDamage();
                 }
@@ -45,6 +46,7 @@ namespace UI {
                 StartCoroutine(buttonCooldownCoroutine(0.5f));
                 var correct = carController.activeObstacle.makeChoice(1);
                 carController.setVelocity(carController.carSpeed);
+                carController.madeChoice();
                 if (!correct) {
                     carController.takeDamage();
                 }

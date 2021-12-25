@@ -21,6 +21,8 @@ public class CarController : MonoBehaviour {
 
     public IBaseObstacle activeObstacle = null;
     private GameObject activeUI;
+
+    private bool hasMadeChoice = false;
     
     void Start() {
         rb = GetComponent<Rigidbody>();
@@ -38,6 +40,7 @@ public class CarController : MonoBehaviour {
     }
 
     private void OnTriggerEnter(Collider other) {
+        hasMadeChoice = false;
         if (other.CompareTag("LightObstacle")) {
             LightObstacle obstacle = other.GetComponent<LightObstacle>();
             activeObstacle = obstacle;
@@ -57,11 +60,20 @@ public class CarController : MonoBehaviour {
         }
     }
 
+    public void madeChoice() {
+        hasMadeChoice = true;
+    }
+
     private void OnTriggerExit(Collider other) {
         activeObstacle = null;
         activeUI.gameObject.SetActive(false);
         TrafficUI.SetActive(false);
+
+        if (!hasMadeChoice) {
+            takeDamage();
+            hasMadeChoice = false;
         }
+    }
 
     public void takeDamage() {
         health -= 1;
