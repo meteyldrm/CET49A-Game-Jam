@@ -3,7 +3,6 @@ using System.Collections;
 using System.Collections.Generic;
 using Obstacles;
 using Resources;
-using UI;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -93,7 +92,7 @@ public class CarController : MonoBehaviour {
         if (other.CompareTag("RegularObstacle")) return;
         
         activeObstacle = null;
-        activeUI.gameObject.SetActive(false);
+        if(activeUI != null) activeUI.gameObject.SetActive(false);
 
         if (!hasMadeChoice) {
             takeDamage();
@@ -122,11 +121,11 @@ public class CarController : MonoBehaviour {
         yield return new WaitForSeconds(time);
         
         if (c < 20) {
-            Instantiate(trafficLightObstaclePrefab, (rb.position + Vector3.forward * 15f), Quaternion.identity);
+            Instantiate(trafficLightObstaclePrefab, (rb.position.Strip(true, false, false) + Vector3.forward * 15f), Quaternion.identity);
         } else if (c < 35) {
-            Instantiate(pedestrianObstaclePrefab, (rb.position + Vector3.forward * 15f), Quaternion.identity);
+            Instantiate(pedestrianObstaclePrefab, (rb.position.Strip(true, false, false) + Vector3.forward * 15f), Quaternion.identity);
         } else if (c < 101) {
-            Instantiate(laneObstaclePrefab, (rb.position + Vector3.forward * 25f), Quaternion.identity);
+            Instantiate(laneObstaclePrefab, (rb.position.Strip(true, false, false) + Vector3.forward * 25f), Quaternion.identity);
         }
 
         StartCoroutine(spawnRandomChallenge(Random.Range(4f, 8f)));

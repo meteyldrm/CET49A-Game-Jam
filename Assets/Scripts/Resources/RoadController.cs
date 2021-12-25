@@ -3,23 +3,30 @@
 namespace Resources {
     public class RoadController: MonoBehaviour {
         public GameObject Platform;
-        public GameObject generationPoint;
 
         [SerializeField] private GameObject car;
         private Transform carTransform;
 
+        private Vector3 target;
+        private int iteration = 0;
+
         void Start() {
             carTransform = car.transform;
+            var position = carTransform.position;
+            target = new Vector3(position.x, position.y, position.z + 10);
         }
 
         void Update()
         {
-             if(carTransform.position.z + 120 > generationPoint.transform.position.z) // how many meters of road you want
-             {
-                 var vec = new Vector3(0, -1.01f, generationPoint.transform.position.z + 5);
-                 Instantiate(Platform, vec, Platform.transform.rotation);
-                 generationPoint.transform.position = new Vector3(generationPoint.transform.position.x, generationPoint.transform.position.y, generationPoint.transform.position.z + 10);
-             }
-         }
+            if (carTransform.position.z > target.z) {
+                var index = iteration % transform.childCount;
+                var tf = gameObject.transform.GetChild(index).transform;
+                var position = tf.position;
+                position = new Vector3(position.x, position.y, position.z + 70);
+                tf.position = position;
+                target = new Vector3(target.x, target.y, target.z + 10);
+                iteration++;
+            }
+        }
     }
 }
