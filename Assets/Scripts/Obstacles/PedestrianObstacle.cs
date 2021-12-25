@@ -1,9 +1,13 @@
+using System;
 using System.Collections;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 namespace Obstacles {
     public class PedestrianObstacle : MonoBehaviour, IBaseObstacle {
         private bool hasPedestrian = true;
+
+        private bool isOnRight = true;
 
         public void setCorrectChoice(int choice) {
             if (choice == 0) {
@@ -31,8 +35,31 @@ namespace Obstacles {
             StartCoroutine(stateTimeCoroutine(state, time));
         }
 
-        private IEnumerator stateTimeCoroutine(int state, float time) { 
-            yield return new WaitForSeconds(time);
+        private void OnEnable() {
+            var c = Random.Range(0, 2);
+            
+            Transform child = gameObject.transform.GetChild(0);
+            var position = child.position;
+            if (position.x > 0 && c == 1) {
+                var initPos = new Vector3(-position.x, position.y, position.z);
+                child.position = initPos;
+                isOnRight = false;
+            } else {
+                isOnRight = true;
+            }
+        }
+
+        private void OnDisable() {
+            if (!isOnRight) {
+                Transform child = gameObject.transform.GetChild(0);
+                var position = child.position;
+                var initPos = new Vector3(-position.x, position.y, position.z);
+                child.position = initPos;
+                isOnRight = true;
+            }
+        }
+
+        private IEnumerator stateTimeCoroutine(int state, float time) {
 
             var walkTime = 2f;
 
@@ -40,6 +67,12 @@ namespace Obstacles {
 
             Transform child = gameObject.transform.GetChild(0);
             var initPos = child.position;
+            
+            if (!isOnRight) {
+                time += 1.1f;
+            }
+            yield return new WaitForSeconds(time);
+            
             var targetPos = new Vector3(-initPos.x, initPos.y, initPos.z);
 
             while (delta < walkTime) {

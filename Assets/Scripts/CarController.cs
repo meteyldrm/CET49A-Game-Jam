@@ -91,7 +91,6 @@ public class CarController : MonoBehaviour {
 
     public void takeDamage() {
         health -= 1;
-        print($"Remaining health {health}");
     }
 
     public void switchLane(string lane) {
@@ -110,13 +109,13 @@ public class CarController : MonoBehaviour {
         yield return new WaitForSeconds(time);
         
         if (c < 20) {
-            Instantiate(trafficLightObstaclePrefab, (rb.position.Strip(true, false, false) + Vector3.forward * 15f), Quaternion.identity);
+            Instantiate(trafficLightObstaclePrefab, (rb.position.Strip(true, false, false) + Vector3.forward * 25f), Quaternion.identity);
         } else if (c < 35) {
-            Instantiate(pedestrianObstaclePrefab, (rb.position.Strip(true, false, false) + Vector3.forward * 15f), Quaternion.identity);
+            Instantiate(pedestrianObstaclePrefab, (rb.position.Strip(true, false, false) + Vector3.forward * 25f), Quaternion.identity);
         } else if (c < 101) {
             Instantiate(laneObstaclePrefab, (rb.position.Strip(true, false, false) + Vector3.forward * 25f), Quaternion.identity);
         }
 
-        StartCoroutine(spawnRandomChallenge(Random.Range(4f, 8f)));
+        StartCoroutine(spawnRandomChallenge(Random.Range(6f, 12f)));
     }
 }

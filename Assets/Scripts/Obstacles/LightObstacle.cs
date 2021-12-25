@@ -42,6 +42,10 @@ namespace Obstacles {
             }
         }
 
+        private void OnEnable() {
+            setMaterial(0);
+        }
+
         public void setInitialState(int state) {
             this.isRed = state == 0;
             setCorrectChoice(state);
