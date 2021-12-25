@@ -1,26 +1,25 @@
 ﻿using UnityEngine;
 
 namespace Resources {
-    public class RoadController {
+    public class RoadController: MonoBehaviour {
         public GameObject Platform;
-        public Vector3 generationPoint;
+        public GameObject generationPoint;
 
         [SerializeField] private GameObject car;
         private Transform carTransform;
 
         void Start() {
             carTransform = car.transform;
-            generationPoint = carTransform.position;
         }
 
-        // void Update()
-        // {
-        //     if(carTransform.position.z < generationPoint.position.z)
-        //     {
-        //         var vec = new Vector3(carTransform.position.x, carTransform.position.y, carTransform.position.z + 50);
-        //         GameObject.Instantiate(Platform, carTransform.position - Vector3.up, carTransform.rotation);
-        //         generationPoint.position = new Vector3(generationPoint.position.x, generationPoint.position.y, generationPoint.position.z + 10);
-        //     }
-        // }
+        void Update()
+        {
+             if(carTransform.position.z + 120 > generationPoint.transform.position.z) // how many meters of road you want
+             {
+                 var vec = new Vector3(0, -1.01f, generationPoint.transform.position.z + 5);
+                 Instantiate(Platform, vec, Platform.transform.rotation);
+                 generationPoint.transform.position = new Vector3(generationPoint.transform.position.x, generationPoint.transform.position.y, generationPoint.transform.position.z + 10);
+             }
+         }
     }
 }
