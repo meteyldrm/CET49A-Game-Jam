@@ -2417,8 +2417,8 @@ MonoBehaviour:
   car: {fileID: 1149374232}
   leftButton: {fileID: 356094472}
   rightButton: {fileID: 239533470}
-  leftSignalButton: {fileID: 0}
-  rightSignalButton: {fileID: 0}
+  leftSignalButton: {fileID: 545474978}
+  rightSignalButton: {fileID: 2104760073}
 --- !u!1 &1558746470
 GameObject:
   m_ObjectHideFlags: 0
