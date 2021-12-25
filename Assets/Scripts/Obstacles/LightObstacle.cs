@@ -6,9 +6,14 @@ using UnityEngine.Events;
 namespace Obstacles {
     public class LightObstacle : MonoBehaviour, IBaseObstacle {
         private bool isRed = true;
-
+        
+        [SerializeField] private Material lightPoleMat;
+        
+        
         [SerializeField] private Material redMaterial;
+        [SerializeField] private Material redDimMaterial;
         [SerializeField] private Material greenMaterial;
+        [SerializeField] private Material greenDimMaterial;
 
         public void setCorrectChoice(int choice) {
             setMaterial(choice);
@@ -38,7 +43,12 @@ namespace Obstacles {
 
         private void setMaterial(int mat) {
             foreach (Transform child in transform) {
-                child.gameObject.GetComponent<MeshRenderer>().material = mat == 0 ? redMaterial : greenMaterial;
+                MeshRenderer mr = child.gameObject.GetComponent<MeshRenderer>();
+                if (mat == 0) {
+                    mr.materials = new[] { lightPoleMat, redMaterial, greenDimMaterial };
+                } else {
+                    mr.materials = new[] { lightPoleMat, redDimMaterial, greenMaterial };
+                }
             }
         }
 
