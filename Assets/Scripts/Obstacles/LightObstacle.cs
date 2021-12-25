@@ -43,18 +43,18 @@ namespace Obstacles {
         }
 
         public void setInitialState(int state) {
-            throw new NotImplementedException();
+            setStateAfterTime(state, 0f);
         }
 
-        public void setStateAfterTime(int willBeRed, float time) {
-            StartCoroutine(stateTimeCoroutine(willBeRed, time));
+        public void setStateAfterTime(int state, float time) {
+            StartCoroutine(stateTimeCoroutine(state, time));
         }
 
-        private IEnumerator stateTimeCoroutine(int willBeRed, float time) { 
+        private IEnumerator stateTimeCoroutine(int state, float time) { 
             yield return new WaitForSeconds(time);
 
-            this.isRed = willBeRed == 0;
-            setCorrectChoice(willBeRed);
+            this.isRed = state == 0;
+            setCorrectChoice(state);
         }
     }
 }

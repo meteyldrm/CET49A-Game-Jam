@@ -55,21 +55,24 @@ public class CarController : MonoBehaviour {
             activeUI = TrafficChoice;
             var state = Random.Range(0, 101);
             if (state < 20) {
-                obstacle.setStateAfterTime(1, 0f);
+                obstacle.setInitialState(1);
             } else {
-                obstacle.setStateAfterTime(0, 0f);
+                obstacle.setInitialState(0);
                 obstacle.setStateAfterTime(1, 2.5f);
             }
         }
 
         if (other.CompareTag("PedestrianObstacle")) {
             PedestrianObstacle obstacle = other.GetComponent<PedestrianObstacle>();
-            
+            activeObstacle = obstacle;
+
+            TrafficChoice.SetActive(true);
+            activeUI = TrafficChoice;
             var state = Random.Range(0, 101);
             if (state < 20) {
-                obstacle.setStateAfterTime(1, 0f);
+                obstacle.setInitialState(1);
             } else {
-                obstacle.setStateAfterTime(0, 0f);
+                obstacle.setInitialState(0);
                 obstacle.setStateAfterTime(1, 2.5f);
             }
         }
