@@ -1,20 +1,8 @@
 using UnityEngine;
 
 namespace Obstacles {
-    public class TurnObstacle : MonoBehaviour, IBaseObstacle
+    public class LaneObstacle : MonoBehaviour, IBaseObstacle
     {
-        // Start is called before the first frame update
-        void Start()
-        {
-        
-        }
-
-        // Update is called once per frame
-        void Update()
-        {
-        
-        }
-
         public void setInitialState(int state) {
             throw new System.NotImplementedException();
         }

@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using Obstacles;
+using Resources;
 using UI;
 using UnityEngine;
 using Random = UnityEngine.Random;
@@ -11,7 +12,11 @@ public class CarController : MonoBehaviour {
 
     [SerializeField] private GameObject TrafficChoice;
     [SerializeField] private GameObject PedestrianChoice;
-    [SerializeField] private GameObject TurnChoice;
+    [SerializeField] private GameObject LaneChoice;
+
+    [SerializeField] private GameObject trafficLightObstaclePrefab;
+    [SerializeField] private GameObject pedestrianObstaclePrefab;
+    [SerializeField] private GameObject laneObstaclePrefab;
 
     public float carSpeed = 5f;
 
@@ -26,6 +31,8 @@ public class CarController : MonoBehaviour {
     void Start() {
         rb = GetComponent<Rigidbody>();
         setVelocity(carSpeed);
+
+        StartCoroutine(spawnRandomChallenge(3f));
     }
 
     
@@ -97,5 +104,31 @@ public class CarController : MonoBehaviour {
     public void takeDamage() {
         health -= 1;
         print($"Remaining health {health}");
+    }
+
+    public void switchLane(string lane) {
+        if (lane == "right") {
+            var position = rb.position;
+            rb.transform.position = new Vector3(1.5f, position.y, position.z);
+        } else if (lane == "left") {
+            var position = rb.position;
+            rb.transform.position = new Vector3(-1.5f, position.y, position.z);
+        }
+    }
+
+    private IEnumerator spawnRandomChallenge(float time) {
+        var c = Random.Range(0, 101);
+        
+        yield return new WaitForSeconds(time);
+        
+        if (c < 20) {
+            Instantiate(trafficLightObstaclePrefab, (rb.position + Vector3.forward * 55f), Quaternion.identity);
+        } else if (c < 35) {
+            Instantiate(pedestrianObstaclePrefab, (rb.position + Vector3.forward * 55f), Quaternion.identity);
+        } else if (c < 101) {
+            Instantiate(laneObstaclePrefab, (rb.position + Vector3.forward * 25f), Quaternion.identity);
+        }
+
+        StartCoroutine(spawnRandomChallenge(Random.Range(4f, 8f)));
     }
 }
