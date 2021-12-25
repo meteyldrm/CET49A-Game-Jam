@@ -21,8 +21,9 @@ namespace Resources {
             if (carTransform.position.z > target.z) {
                 var index = iteration % transform.childCount;
                 var tf = gameObject.transform.GetChild(index).transform;
+
                 var position = tf.position;
-                position = new Vector3(position.x, position.y, position.z + 70);
+                position = new Vector3(position.x, position.y, position.z + 90);
                 tf.position = position;
                 target = new Vector3(target.x, target.y, target.z + 10);
                 iteration++;

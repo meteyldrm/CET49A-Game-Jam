@@ -8,8 +8,10 @@ namespace Obstacles {
         public void setCorrectChoice(int choice) {
             if (choice == 0) {
                 hasPedestrian = true;
+                transform.GetChild(0).gameObject.SetActive(true);
             } else if (choice == 1) {
                 hasPedestrian = false;
+                transform.GetChild(0).gameObject.SetActive(false);
             }
         }
 
@@ -39,12 +41,9 @@ namespace Obstacles {
             Transform child = gameObject.transform.GetChild(0);
             var initPos = child.position;
             var targetPos = new Vector3(-initPos.x, initPos.y, initPos.z);
-            
-            print($"Init {initPos} target {targetPos}");
-            Debug.Break();
 
             while (delta < walkTime) {
-                child.position = Vector3.LerpUnclamped(initPos, targetPos, delta / walkTime);
+                child.position = Vector3.Lerp(initPos, targetPos, delta / walkTime);
                 delta += Time.deltaTime;
                 yield return null;
             }

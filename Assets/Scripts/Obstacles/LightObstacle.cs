@@ -43,7 +43,8 @@ namespace Obstacles {
         }
 
         public void setInitialState(int state) {
-            setStateAfterTime(state, 0f);
+            this.isRed = state == 0;
+            setCorrectChoice(state);
         }
 
         public void setStateAfterTime(int state, float time) {
