@@ -7,7 +7,11 @@ namespace Obstacles {
     public class LightObstacle : MonoBehaviour, IBaseObstacle {
         private bool isRed = true;
 
+        [SerializeField] private Material redMaterial;
+        [SerializeField] private Material greenMaterial;
+
         public void setCorrectChoice(int choice) {
+            setMaterial(choice);
             switch (choice) {
                 case 0:
                     isRed = true;
@@ -32,15 +36,25 @@ namespace Obstacles {
             }
         }
 
-        public void setStateAfterTime(bool willBeRed, float time) {
+        private void setMaterial(int mat) {
+            foreach (Transform child in transform) {
+                child.gameObject.GetComponent<MeshRenderer>().material = mat == 0 ? redMaterial : greenMaterial;
+            }
+        }
+
+        public void setInitialState(int state) {
+            throw new NotImplementedException();
+        }
+
+        public void setStateAfterTime(int willBeRed, float time) {
             StartCoroutine(stateTimeCoroutine(willBeRed, time));
         }
 
-        private IEnumerator stateTimeCoroutine(bool willBeRed, float time) { 
+        private IEnumerator stateTimeCoroutine(int willBeRed, float time) { 
             yield return new WaitForSeconds(time);
 
-            this.isRed = willBeRed;
-            setCorrectChoice(willBeRed ? 0 : 1);
+            this.isRed = willBeRed == 0;
+            setCorrectChoice(willBeRed);
         }
     }
 }

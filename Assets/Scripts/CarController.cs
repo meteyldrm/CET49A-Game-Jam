@@ -9,8 +9,6 @@ using Random = UnityEngine.Random;
 public class CarController : MonoBehaviour {
     private Rigidbody rb;
 
-    [SerializeField] private GameObject TrafficUI;
-
     [SerializeField] private GameObject TrafficChoice;
     [SerializeField] private GameObject PedestrianChoice;
     [SerializeField] private GameObject TurnChoice;
@@ -18,6 +16,7 @@ public class CarController : MonoBehaviour {
     public float carSpeed = 5f;
 
     private int health = 5;
+    private int coin = 0;
 
     public IBaseObstacle activeObstacle = null;
     private GameObject activeUI;
@@ -40,22 +39,38 @@ public class CarController : MonoBehaviour {
     }
 
     private void OnTriggerEnter(Collider other) {
+        if (other.CompareTag("Coin")) {
+            coin += 1;
+            other.gameObject.SetActive(false);
+            return;
+        }
+
         hasMadeChoice = false;
+        
         if (other.CompareTag("LightObstacle")) {
             LightObstacle obstacle = other.GetComponent<LightObstacle>();
             activeObstacle = obstacle;
-            var controller = TrafficUI.GetComponent<LightUIAppearanceController>();
 
             TrafficChoice.SetActive(true);
             activeUI = TrafficChoice;
-            controller.gameObject.SetActive(true);
             var state = Random.Range(0, 101);
             if (state < 20) {
-                controller.green();
-            } else if (state > 20) {
-                controller.red();
-                controller.setStateAfterTime(false, 2.5f);
-                obstacle.setStateAfterTime(false, 2.5f);
+                obstacle.setStateAfterTime(1, 0f);
+            } else {
+                obstacle.setStateAfterTime(0, 0f);
+                obstacle.setStateAfterTime(1, 2.5f);
+            }
+        }
+
+        if (other.CompareTag("PedestrianObstacle")) {
+            PedestrianObstacle obstacle = other.GetComponent<PedestrianObstacle>();
+            
+            var state = Random.Range(0, 101);
+            if (state < 20) {
+                obstacle.setStateAfterTime(1, 0f);
+            } else {
+                obstacle.setStateAfterTime(0, 0f);
+                obstacle.setStateAfterTime(1, 2.5f);
             }
         }
     }
@@ -65,9 +80,10 @@ public class CarController : MonoBehaviour {
     }
 
     private void OnTriggerExit(Collider other) {
+        if (other.CompareTag("RegularObstacle")) return;
+        
         activeObstacle = null;
         activeUI.gameObject.SetActive(false);
-        TrafficUI.SetActive(false);
 
         if (!hasMadeChoice) {
             takeDamage();
