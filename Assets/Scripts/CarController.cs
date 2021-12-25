@@ -117,14 +117,14 @@ public class CarController : MonoBehaviour {
     }
 
     private IEnumerator spawnRandomChallenge(float time) {
-        var c = Random.Range(0, 101);
+        var c = Random.Range(0, 35);
         
         yield return new WaitForSeconds(time);
         
         if (c < 20) {
-            Instantiate(trafficLightObstaclePrefab, (rb.position + Vector3.forward * 55f), Quaternion.identity);
+            Instantiate(trafficLightObstaclePrefab, (rb.position + Vector3.forward * 15f), Quaternion.identity);
         } else if (c < 35) {
-            Instantiate(pedestrianObstaclePrefab, (rb.position + Vector3.forward * 55f), Quaternion.identity);
+            Instantiate(pedestrianObstaclePrefab, (rb.position + Vector3.forward * 15f), Quaternion.identity);
         } else if (c < 101) {
             Instantiate(laneObstaclePrefab, (rb.position + Vector3.forward * 25f), Quaternion.identity);
         }
