@@ -4,17 +4,18 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
-public class MenuButton : MonoBehaviour
+
+public class StartGame : MonoBehaviour
 {
     public Button button;
 
-    void Start()
+    private void Start()
     {
-        button.onClick.AddListener(BackMenu);
+        button.onClick.AddListener(GameStart);
     }
 
-    void BackMenu()
+    void GameStart()
     {
-        SceneManager.LoadScene("MainScene");
+        SceneManager.LoadScene("GameScene");
     }
 }
