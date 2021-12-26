@@ -21,7 +21,7 @@ namespace UI {
 
         private void dismiss() {
             gameObject.SetActive(false);
-            SceneManager.SetActiveScene(SceneManager.GetSceneByName("MainScene"));
+            SceneManager.LoadScene("GameScene");
         }
 
         private void configure() {
