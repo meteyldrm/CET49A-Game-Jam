@@ -112,6 +112,7 @@ public class CarController : MonoBehaviour {
             coin += 1;
             other.gameObject.SetActive(false);
             CoinText.text = "Coin: " + coin.ToString();
+            PlayerPrefs.SetInt("Coin", PlayerPrefs.GetInt("Coin") + coin);
             return;
         }
 
