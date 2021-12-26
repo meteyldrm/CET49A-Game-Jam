@@ -5,6 +5,7 @@ using Obstacles;
 using Resources;
 using UI;
 using UnityEngine;
+using UnityEngine.UI;
 using Random = UnityEngine.Random;
 
 public class CarController : MonoBehaviour {
@@ -30,6 +31,8 @@ public class CarController : MonoBehaviour {
     [SerializeField] private Material windshield;
     [SerializeField] private Material spikes;
     [SerializeField] private Material backlight;
+
+    [SerializeField] private Text CoinText;
 
 
     private int health = 5;
@@ -60,6 +63,8 @@ public class CarController : MonoBehaviour {
         selfTransform = transform;
         xMoving = false;
         moveOnce = true;
+
+        coin = 0;
 
         if (PlayerPrefs.GetInt("Initialized") != 1)
         {
@@ -106,6 +111,7 @@ public class CarController : MonoBehaviour {
         if (other.CompareTag("Coin")) {
             coin += 1;
             other.gameObject.SetActive(false);
+            CoinText.text = "Coin: " + coin.ToString();
             return;
         }
 
