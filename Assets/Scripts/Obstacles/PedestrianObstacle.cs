@@ -42,6 +42,7 @@ namespace Obstacles {
             var position = child.position;
             if (position.x > 0 && c == 1) {
                 var initPos = new Vector3(-position.x, position.y, position.z);
+                child.Rotate(Vector3.forward, 180);
                 child.position = initPos;
                 isOnRight = false;
             } else {

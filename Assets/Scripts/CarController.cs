@@ -168,8 +168,13 @@ public class CarController : MonoBehaviour {
             transform.GetChild(0).gameObject.SetActive(false);
             transform.GetChild(1).gameObject.SetActive(false);
         }
+        
+        if (!hasMadeChoice && other.CompareTag("LightObstacle")) {
+            takeDamageWithReason("You cannot cross a red light.");
+            hasMadeChoice = false;
+        }
 
-        if (!hasMadeChoice && !other.CompareTag("LightObstacle") && !other.CompareTag("LaneObstacle")) {
+        if (!hasMadeChoice && !other.CompareTag("LaneObstacle")) {
             takeDamageWithReason("You didn't make a choice in time.");
             hasMadeChoice = false;
         }
@@ -202,7 +207,7 @@ public class CarController : MonoBehaviour {
         
         if (c < 20) {
             Instantiate(trafficLightObstaclePrefab, (rb.position.Strip(true, false, false) + Vector3.forward * 20f), Quaternion.identity);
-        } else if (c < 35) {
+        } else if (c < 50) {
             Instantiate(pedestrianObstaclePrefab, (rb.position.Strip(true, false, false) + Vector3.forward * 25f), Quaternion.identity);
         } else if (c < 101) {
             GameObject o = Instantiate(laneObstaclePrefab, (rb.position.Strip(true, false, false) + Vector3.forward * 30f), Quaternion.identity);
