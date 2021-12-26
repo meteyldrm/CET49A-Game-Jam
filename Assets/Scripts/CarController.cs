@@ -59,12 +59,14 @@ public class CarController : MonoBehaviour {
         selfTransform = transform;
         xMoving = false;
         moveOnce = true;
-        
-        if (PlayerPrefs.GetInt("Initialized") != 1)
+
+        /*if (PlayerPrefs.GetInt("Initialized") != 1)
         {
             Initialize();
-        }
-        
+        }*/
+
+        Initialize();
+
         setMaterials(carChoice());
 
         StartCoroutine(spawnRandomChallenge(3f));
@@ -216,8 +218,8 @@ public class CarController : MonoBehaviour {
 
     void Initialize()
     {
-        PlayerPrefs.SetInt("HasOrange", 1);
-        PlayerPrefs.SetString("BallColor", "Orange");
+        PlayerPrefs.SetInt("HasBlack", 1);
+        PlayerPrefs.SetString("CarChoice", "Black");
         PlayerPrefs.SetInt("Coin", 0);
         PlayerPrefs.SetInt("HasGreen", 0);
         PlayerPrefs.SetInt("HasBlue", 0);

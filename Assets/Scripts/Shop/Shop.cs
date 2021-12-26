@@ -29,14 +29,11 @@ public class Shop : MonoBehaviour
     void Start()
     {
         //Initialize();
-        PlayerPrefs.SetInt("Coin", 100);
-
         carChoice = PlayerPrefs.GetString("CarChoice");
         InitilizeButtons();
         NotEnoughCoin.enabled = false;
 
         TotalCoin.SetTotalCoin();
-
     }
 
     void BuyCarSkin(string color)
@@ -240,15 +237,4 @@ public class Shop : MonoBehaviour
             NotEnoughCoin.enabled = false;
         }
     }
-
-    /*void Initialize()
-    {
-        PlayerPrefs.SetInt("HasBlack", 1);
-        PlayerPrefs.SetString("CarChoice", "Black");
-        PlayerPrefs.SetInt("Coin", 0);
-        PlayerPrefs.SetInt("HasGreen", 0);
-        PlayerPrefs.SetInt("HasBlue", 0);
-        PlayerPrefs.SetInt("HasRed", 0);
-        PlayerPrefs.SetInt("Initialized", 1);
-    }*/
 }
