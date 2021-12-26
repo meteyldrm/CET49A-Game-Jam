@@ -28,9 +28,15 @@ public class Shop : MonoBehaviour
 
     void Start()
     {
+        //Initialize();
+        PlayerPrefs.SetInt("Coin", 100);
+
         carChoice = PlayerPrefs.GetString("CarChoice");
         InitilizeButtons();
         NotEnoughCoin.enabled = false;
+
+        TotalCoin.SetTotalCoin();
+
     }
 
     void BuyCarSkin(string color)
@@ -49,7 +55,7 @@ public class Shop : MonoBehaviour
                     Black.onClick.RemoveAllListeners();
                     PlayerPrefs.SetInt("HasBlack", 1);
                     BlackText.text = "USE";
-                    Black.onClick.AddListener(delegate { UseCarSkin("Black"); });
+                    Black.onClick.AddListener(delegate { UseCarSkin("black"); });
                     PlayerPrefs.SetInt("Coin", PlayerPrefs.GetInt("Coin") - blackPrice);
                     InitilizeButtons();
                     TotalCoin.SetTotalCoin();
@@ -150,14 +156,14 @@ public class Shop : MonoBehaviour
             else
             {
                 BlackText.text = "USE";
-                Black.onClick.AddListener(delegate { UseCarSkin("Black"); });
+                Black.onClick.AddListener(delegate { UseCarSkin("black"); });
                 Black.interactable = true;
             }
         }
         else
         {
             BlackText.text = "BUY / " + blackPrice.ToString() + " COIN";
-            Black.onClick.AddListener(delegate { BuyCarSkin("Black"); });
+            Black.onClick.AddListener(delegate { BuyCarSkin("black"); });
         }
 
         if (PlayerPrefs.GetInt("HasGreen") == 1)
@@ -234,4 +240,15 @@ public class Shop : MonoBehaviour
             NotEnoughCoin.enabled = false;
         }
     }
+
+    /*void Initialize()
+    {
+        PlayerPrefs.SetInt("HasBlack", 1);
+        PlayerPrefs.SetString("CarChoice", "Black");
+        PlayerPrefs.SetInt("Coin", 0);
+        PlayerPrefs.SetInt("HasGreen", 0);
+        PlayerPrefs.SetInt("HasBlue", 0);
+        PlayerPrefs.SetInt("HasRed", 0);
+        PlayerPrefs.SetInt("Initialized", 1);
+    }*/
 }
