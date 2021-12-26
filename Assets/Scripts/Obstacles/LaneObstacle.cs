@@ -3,20 +3,21 @@ using UnityEngine;
 namespace Obstacles {
     public class LaneObstacle : MonoBehaviour, IBaseObstacle
     {
+        
         public void setInitialState(int state) {
-            throw new System.NotImplementedException();
+            return;
         }
 
         public void setStateAfterTime(int state, float time) {
-            throw new System.NotImplementedException();
+            return;
         }
 
         public void setCorrectChoice(int choice) {
-            throw new System.NotImplementedException();
+            return;
         }
 
         public bool makeChoice(int choice) {
-            throw new System.NotImplementedException();
+            return true;
         }
     }
 }

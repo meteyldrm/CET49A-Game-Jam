@@ -26,18 +26,45 @@ public class CarController : MonoBehaviour {
     private GameObject activeUI;
 
     private bool hasMadeChoice = false;
+
+
+    private float sidewaysMoveSpeed = 2f;
+    private Transform selfTransform;
+    private float xTarget;
+    private bool xMoving;
+    private bool moveOnce;
     
     void Start() {
         rb = GetComponent<Rigidbody>();
         setVelocity(carSpeed);
 
-        StartCoroutine(spawnRandomChallenge(3f));
+        selfTransform = transform;
+        xMoving = false;
+        moveOnce = true;
+
+        //StartCoroutine(spawnRandomChallenge(3f));
     }
 
     
     void Update()
     {
+        //TODO: Fix bug where if a lane switch button is pressed when close to target, existing velocity drags player out of bounds due to changed target location
         
+        if (xMoving) {
+            if (Math.Abs(xTarget - selfTransform.position.x) < 0.05f) {
+                rb.velocity = rb.velocity.Strip(true, false, false);
+                var position = rb.position;
+                position = new Vector3(xTarget, position.y, position.z);
+                rb.position = position;
+                xMoving = false;
+                moveOnce = true;
+            } else if(moveOnce) {
+                Vector3 velocity;
+                velocity = new Vector3(Math.Sign(xTarget) * sidewaysMoveSpeed, (velocity = rb.velocity).y, velocity.z);
+                rb.velocity = velocity;
+                moveOnce = false;
+            }
+        }
     }
 
     public void setVelocity(float speed) {
@@ -71,6 +98,14 @@ public class CarController : MonoBehaviour {
             activeUI = TrafficChoice;
             obstacle.setStateAfterTime(1, 0.4f);
         }
+
+        if (other.CompareTag("LaneObstacle")) {
+            LaneObstacle obstacle = other.GetComponent<LaneObstacle>();
+            activeObstacle = obstacle;
+            
+            LaneChoice.SetActive(true);
+            activeUI = LaneChoice;
+        }
     }
 
     public void madeChoice() {
@@ -83,7 +118,7 @@ public class CarController : MonoBehaviour {
         activeObstacle = null;
         if(activeUI != null) activeUI.gameObject.SetActive(false);
 
-        if (!hasMadeChoice) {
+        if (!hasMadeChoice && !other.CompareTag("LightObstacle")) {
             takeDamage();
             hasMadeChoice = false;
         }
@@ -95,11 +130,11 @@ public class CarController : MonoBehaviour {
 
     public void switchLane(string lane) {
         if (lane == "right") {
-            var position = rb.position;
-            rb.transform.position = new Vector3(1.5f, position.y, position.z);
+            xTarget = 1.5f;
+            xMoving = true;
         } else if (lane == "left") {
-            var position = rb.position;
-            rb.transform.position = new Vector3(-1.5f, position.y, position.z);
+            xTarget = -1.5f;
+            xMoving = true;
         }
     }
 

@@ -148,11 +148,11 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 118481146}
   m_LocalRotation: {x: 0.14090082, y: -0.2203169, z: 0.032180022, w: 0.96466154}
-  m_LocalPosition: {x: -0.518, y: -0, z: 0.335}
+  m_LocalPosition: {x: -0.518, y: 0, z: 0.335}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1149374236}
-  m_RootOrder: 1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 16.62, y: -25.73, z: 0}
 --- !u!108 &118481148
 Light:
@@ -166,7 +166,7 @@ Light:
   m_Type: 0
   m_Shape: 0
   m_Color: {r: 0.9339623, g: 0.6561256, b: 0.16300285, a: 1}
-  m_Intensity: 2
+  m_Intensity: 6
   m_Range: 10.42
   m_SpotAngle: 48.4536
   m_InnerSpotAngle: 40.255684
@@ -2359,8 +2359,8 @@ Transform:
   m_LocalPosition: {x: -1.5, y: 0.01, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
-  - {fileID: 2095634668}
   - {fileID: 118481147}
+  - {fileID: 2095634668}
   m_Father: {fileID: 0}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -2664,6 +2664,8 @@ MonoBehaviour:
   rightButton: {fileID: 239533470}
   leftSignalButton: {fileID: 545474978}
   rightSignalButton: {fileID: 2104760073}
+  leftSignalLight: {fileID: 118481146}
+  rightSignalLight: {fileID: 2095634667}
 --- !u!4 &1493619375 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5442283961925301228, guid: 7422308e641349d448f03a0759d2c15f, type: 3}
@@ -3290,7 +3292,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1149374236}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 16.62, y: 25.73, z: 0}
 --- !u!108 &2095634669
 Light:
@@ -3304,7 +3306,7 @@ Light:
   m_Type: 0
   m_Shape: 0
   m_Color: {r: 0.9339623, g: 0.6561256, b: 0.16300285, a: 1}
-  m_Intensity: 2
+  m_Intensity: 6
   m_Range: 10.42
   m_SpotAngle: 48.4536
   m_InnerSpotAngle: 40.255684

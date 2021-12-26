@@ -6,9 +6,9 @@ TagManager:
   tags:
   - LightObstacle
   - PedestrianObstacle
-  - TurnObstacle
   - Coin
   - RegularObstacle
+  - LaneObstacle
   layers:
   - Default
   - TransparentFX
