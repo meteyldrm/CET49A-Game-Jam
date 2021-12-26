@@ -17,6 +17,11 @@ public class CarController : MonoBehaviour {
     [SerializeField] private GameObject pedestrianObstaclePrefab;
     [SerializeField] private GameObject laneObstaclePrefab;
 
+    [SerializeField] private Material BlackMaterial;
+    [SerializeField] private Material GreenMaterial;
+    [SerializeField] private Material BlueMaterial;
+    [SerializeField] private Material RedMaterial;
+
     public float carSpeed = 5f;
 
     private int health = 5;
@@ -41,6 +46,13 @@ public class CarController : MonoBehaviour {
         selfTransform = transform;
         xMoving = false;
         moveOnce = true;
+
+        carChoice();
+
+        if (PlayerPrefs.GetInt("Initialized") != 1)
+        {
+            Initialize();
+        }
 
         //StartCoroutine(spawnRandomChallenge(3f));
     }
@@ -152,5 +164,38 @@ public class CarController : MonoBehaviour {
         }
 
         StartCoroutine(spawnRandomChallenge(Random.Range(6f, 12f)));
+    }
+
+    void carChoice()
+    {
+        string choice = PlayerPrefs.GetString("CarChoice");
+        switch (choice)
+        {
+            case "Black":
+                gameObject.GetComponent<MeshRenderer>().material = BlackMaterial;
+                return;
+            case "Green":
+                gameObject.GetComponent<MeshRenderer>().material = GreenMaterial;
+                return;
+            case "Blue":
+                gameObject.GetComponent<MeshRenderer>().material = BlueMaterial;
+                return;
+            case "Red":
+                gameObject.GetComponent<MeshRenderer>().material = RedMaterial;
+                return;
+            default:
+                return;
+        }
+    }
+
+    void Initialize()
+    {
+        PlayerPrefs.SetInt("HasOrange", 1);
+        PlayerPrefs.SetString("BallColor", "Orange");
+        PlayerPrefs.SetInt("Coin", 0);
+        PlayerPrefs.SetInt("HasGreen", 0);
+        PlayerPrefs.SetInt("HasBlue", 0);
+        PlayerPrefs.SetInt("HasRed", 0);
+        PlayerPrefs.SetInt("Initialized", 1);
     }
 }
