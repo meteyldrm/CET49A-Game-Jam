@@ -23,6 +23,13 @@ public class CarController : MonoBehaviour {
     [SerializeField] private Material RedMaterial;
 
     public float carSpeed = 5f;
+    
+    [SerializeField] private Material chassis;
+    [SerializeField] private Material headlight;
+    [SerializeField] private Material windshield;
+    [SerializeField] private Material spikes;
+    [SerializeField] private Material backlight;
+
 
     private int health = 5;
     private int coin = 0;
@@ -46,15 +53,15 @@ public class CarController : MonoBehaviour {
         selfTransform = transform;
         xMoving = false;
         moveOnce = true;
-
-        carChoice();
-
+        
         if (PlayerPrefs.GetInt("Initialized") != 1)
         {
             Initialize();
         }
+        
+        setMaterials(carChoice());
 
-        //StartCoroutine(spawnRandomChallenge(3f));
+        StartCoroutine(spawnRandomChallenge(3f));
     }
 
     
@@ -166,26 +173,26 @@ public class CarController : MonoBehaviour {
         StartCoroutine(spawnRandomChallenge(Random.Range(6f, 12f)));
     }
 
-    void carChoice()
+    Material carChoice()
     {
         string choice = PlayerPrefs.GetString("CarChoice");
         switch (choice)
         {
             case "Black":
-                gameObject.GetComponent<MeshRenderer>().material = BlackMaterial;
-                return;
+                return BlackMaterial;
             case "Green":
-                gameObject.GetComponent<MeshRenderer>().material = GreenMaterial;
-                return;
+                return GreenMaterial;
             case "Blue":
-                gameObject.GetComponent<MeshRenderer>().material = BlueMaterial;
-                return;
+                return BlueMaterial;
             case "Red":
-                gameObject.GetComponent<MeshRenderer>().material = RedMaterial;
-                return;
+                return RedMaterial;
             default:
-                return;
+                return BlackMaterial;
         }
+    }
+
+    void setMaterials(Material carMat) {
+        gameObject.GetComponent<MeshRenderer>().materials = new[] { carMat, headlight, windshield, spikes, backlight, backlight };
     }
 
     void Initialize()

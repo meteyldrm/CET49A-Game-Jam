@@ -134,7 +134,7 @@ public class Shop : MonoBehaviour
 
     void InitilizeButtons()
     {
-        carChoice = PlayerPrefs.GetString("carChoice");
+        carChoice = PlayerPrefs.GetString("CarChoice");
         Black.onClick.RemoveAllListeners();
         Green.onClick.RemoveAllListeners();
         Blue.onClick.RemoveAllListeners();
