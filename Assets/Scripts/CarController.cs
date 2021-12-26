@@ -118,7 +118,7 @@ public class CarController : MonoBehaviour {
             TrafficChoice.SetActive(true);
             activeUI = TrafficChoice;
             obstacle.setInitialState(0);
-            obstacle.setStateAfterTime(1, Random.Range(1.5f, 3f));
+            obstacle.setStateAfterTime(1, Random.Range(2.5f, 4f));
         }
 
         if (other.CompareTag("PedestrianObstacle")) {
@@ -194,15 +194,15 @@ public class CarController : MonoBehaviour {
         yield return new WaitForSeconds(time);
         
         if (c < 20) {
-            Instantiate(trafficLightObstaclePrefab, (rb.position.Strip(true, false, false) + Vector3.forward * 25f), Quaternion.identity);
+            Instantiate(trafficLightObstaclePrefab, (rb.position.Strip(true, false, false) + Vector3.forward * 20f), Quaternion.identity);
         } else if (c < 35) {
-            Instantiate(pedestrianObstaclePrefab, (rb.position.Strip(true, false, false) + Vector3.forward * 35f), Quaternion.identity);
+            Instantiate(pedestrianObstaclePrefab, (rb.position.Strip(true, false, false) + Vector3.forward * 25f), Quaternion.identity);
         } else if (c < 101) {
-            GameObject o = Instantiate(laneObstaclePrefab, (rb.position.Strip(true, false, false) + Vector3.forward * 55f), Quaternion.identity);
+            GameObject o = Instantiate(laneObstaclePrefab, (rb.position.Strip(true, false, false) + Vector3.forward * 30f), Quaternion.identity);
             o.GetComponent<LaneObstacle>().setInitialState(onSide);
         }
 
-        StartCoroutine(spawnRandomChallenge(Random.Range(12f, 18f)));
+        StartCoroutine(spawnRandomChallenge(Random.Range(6f, 13f)));
     }
 
     Material carChoice()
