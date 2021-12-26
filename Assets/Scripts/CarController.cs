@@ -46,6 +46,7 @@ public class CarController : MonoBehaviour {
     private float xTarget;
     private bool xMoving;
     private bool moveOnce;
+    private int onSide = 0;
 
     [SerializeField] private GameObject alertUI;
     private AlertController _alertController;
@@ -60,12 +61,10 @@ public class CarController : MonoBehaviour {
         xMoving = false;
         moveOnce = true;
 
-        /*if (PlayerPrefs.GetInt("Initialized") != 1)
+        if (PlayerPrefs.GetInt("Initialized") != 1)
         {
             Initialize();
-        }*/
-
-        Initialize();
+        }
 
         setMaterials(carChoice());
 
@@ -85,6 +84,11 @@ public class CarController : MonoBehaviour {
                 rb.position = position;
                 xMoving = false;
                 moveOnce = true;
+                if (Math.Sign(xTarget) < 0) {
+                    onSide = 0;
+                } else {
+                    onSide = 1;
+                }
             } else if(moveOnce) {
                 Vector3 velocity;
                 velocity = new Vector3(Math.Sign(xTarget) * sidewaysMoveSpeed, (velocity = rb.velocity).y, velocity.z);
@@ -194,7 +198,8 @@ public class CarController : MonoBehaviour {
         } else if (c < 35) {
             Instantiate(pedestrianObstaclePrefab, (rb.position.Strip(true, false, false) + Vector3.forward * 35f), Quaternion.identity);
         } else if (c < 101) {
-            Instantiate(laneObstaclePrefab, (rb.position.Strip(true, false, false) + Vector3.forward * 55f), Quaternion.identity);
+            GameObject o = Instantiate(laneObstaclePrefab, (rb.position.Strip(true, false, false) + Vector3.forward * 55f), Quaternion.identity);
+            o.GetComponent<LaneObstacle>().setInitialState(onSide);
         }
 
         StartCoroutine(spawnRandomChallenge(Random.Range(12f, 18f)));
