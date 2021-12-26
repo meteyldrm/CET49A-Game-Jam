@@ -1,5 +1,6 @@
 using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using Button = UnityEngine.UI.Button;
 
 namespace UI {
@@ -20,6 +21,7 @@ namespace UI {
 
         private void dismiss() {
             gameObject.SetActive(false);
+            SceneManager.SetActiveScene(SceneManager.GetSceneByName("MainScene"));
         }
 
         private void configure() {

@@ -117,7 +117,7 @@ namespace UI {
 
             var timeDelta = 0f;
             
-            while(timeDelta < 5f){
+            while(timeDelta < 3f){
                 if (multiplier == 1 && delta > frequency) {
                     led.SetActive(true);
                     multiplier = -1;
@@ -130,6 +130,8 @@ namespace UI {
                 delta += Time.deltaTime * multiplier;
                 yield return null;
             }
+
+            yield return new WaitForSeconds(0.1f);
             led.SetActive(false);
         }
     }

@@ -41,7 +41,7 @@ public class CarController : MonoBehaviour {
     private bool hasMadeChoice = false;
 
 
-    private float sidewaysMoveSpeed = 5f;
+    private float sidewaysMoveSpeed = 3f;
     private Transform selfTransform;
     private float xTarget;
     private bool xMoving;
@@ -153,6 +153,11 @@ public class CarController : MonoBehaviour {
         activeObstacle = null;
         if(activeUI != null) activeUI.gameObject.SetActive(false);
 
+        if (other.CompareTag("LaneObstacle")) {
+            transform.GetChild(0).gameObject.SetActive(false);
+            transform.GetChild(1).gameObject.SetActive(false);
+        }
+
         if (!hasMadeChoice && !other.CompareTag("LightObstacle") && !other.CompareTag("LaneObstacle")) {
             takeDamageWithReason("You didn't make a choice in time.");
             hasMadeChoice = false;
@@ -164,7 +169,7 @@ public class CarController : MonoBehaviour {
     }
     
     public void takeDamageWithReason(string reason) {
-        health -= 1;
+        takeDamage();
         _alertController.alert("Game Over", reason, "OK");
     }
 
@@ -188,10 +193,10 @@ public class CarController : MonoBehaviour {
         } else if (c < 35) {
             Instantiate(pedestrianObstaclePrefab, (rb.position.Strip(true, false, false) + Vector3.forward * 35f), Quaternion.identity);
         } else if (c < 101) {
-            Instantiate(laneObstaclePrefab, (rb.position.Strip(true, false, false) + Vector3.forward * 15f), Quaternion.identity);
+            Instantiate(laneObstaclePrefab, (rb.position.Strip(true, false, false) + Vector3.forward * 45f), Quaternion.identity);
         }
 
-        StartCoroutine(spawnRandomChallenge(Random.Range(6f, 14f)));
+        StartCoroutine(spawnRandomChallenge(Random.Range(8f, 14f)));
     }
 
     Material carChoice()
