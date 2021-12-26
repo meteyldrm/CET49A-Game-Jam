@@ -166,6 +166,7 @@ public class CarController : MonoBehaviour {
 
     public void takeDamage() {
         health -= 1;
+        rb.velocity = Vector3.zero;
     }
     
     public void takeDamageWithReason(string reason) {
@@ -193,10 +194,10 @@ public class CarController : MonoBehaviour {
         } else if (c < 35) {
             Instantiate(pedestrianObstaclePrefab, (rb.position.Strip(true, false, false) + Vector3.forward * 35f), Quaternion.identity);
         } else if (c < 101) {
-            Instantiate(laneObstaclePrefab, (rb.position.Strip(true, false, false) + Vector3.forward * 45f), Quaternion.identity);
+            Instantiate(laneObstaclePrefab, (rb.position.Strip(true, false, false) + Vector3.forward * 55f), Quaternion.identity);
         }
 
-        StartCoroutine(spawnRandomChallenge(Random.Range(8f, 14f)));
+        StartCoroutine(spawnRandomChallenge(Random.Range(12f, 18f)));
     }
 
     Material carChoice()
