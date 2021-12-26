@@ -36,7 +36,7 @@ namespace UI {
                 carController.setVelocity(0f);
                 carController.madeChoice();
                 if (!correct) {
-                    carController.takeDamage();
+                    carController.takeDamageWithReason("You need to keep going at a green light.");
                 }
             }
         }
@@ -48,7 +48,7 @@ namespace UI {
                 carController.setVelocity(carController.carSpeed);
                 carController.madeChoice();
                 if (!correct) {
-                    carController.takeDamage();
+                    carController.takeDamageWithReason("You need to stop at a red light.");
                 }
             }
         }

@@ -15,26 +15,31 @@ namespace UI {
         private bool _configured = false;
 
         private void OnEnable() {
-            if (!_configured) {
-                if (_alertActionTmp == null) _alertActionTmp = alertAction.GetComponent<TextMeshProUGUI>();
-                if (_alertBodyTmp == null) _alertBodyTmp = alertBody.GetComponent<TextMeshProUGUI>();
-                if (_alertTitleTmp == null) _alertTitleTmp = alertTitle.GetComponent<TextMeshProUGUI>();
-
-                alertAction.GetComponent<Button>().onClick.AddListener(dismiss);
-                
-                _configured = true;
-            }
+            configure();
         }
 
         private void dismiss() {
             gameObject.SetActive(false);
         }
 
+        private void configure() {
+            if (!_configured) {
+                if (_alertActionTmp == null) _alertActionTmp = alertAction.GetComponent<TextMeshProUGUI>();
+                if (_alertBodyTmp == null) _alertBodyTmp = alertBody.GetComponent<TextMeshProUGUI>();
+                if (_alertTitleTmp == null) _alertTitleTmp = alertTitle.GetComponent<TextMeshProUGUI>();
+
+                alertAction.GetComponentInParent<Button>().onClick.AddListener(dismiss);
+                
+                _configured = true;
+            }
+        }
+
         public void alert(string title, string body, string action) {
+            gameObject.SetActive(true);
+            configure();
             _alertTitleTmp.text = title;
             _alertBodyTmp.text = body;
             _alertActionTmp.text = action;
-            gameObject.SetActive(true);
         }
     }
 }

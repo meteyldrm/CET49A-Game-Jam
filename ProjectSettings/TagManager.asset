@@ -9,6 +9,7 @@ TagManager:
   - Coin
   - RegularObstacle
   - LaneObstacle
+  - PedestrianCollision
   layers:
   - Default
   - TransparentFX

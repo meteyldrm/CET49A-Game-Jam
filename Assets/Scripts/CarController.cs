@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Obstacles;
 using Resources;
+using UI;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -40,15 +41,20 @@ public class CarController : MonoBehaviour {
     private bool hasMadeChoice = false;
 
 
-    private float sidewaysMoveSpeed = 2f;
+    private float sidewaysMoveSpeed = 5f;
     private Transform selfTransform;
     private float xTarget;
     private bool xMoving;
     private bool moveOnce;
+
+    [SerializeField] private GameObject alertUI;
+    private AlertController _alertController;
     
     void Start() {
         rb = GetComponent<Rigidbody>();
         setVelocity(carSpeed);
+
+        _alertController = alertUI.GetComponent<AlertController>();
 
         selfTransform = transform;
         xMoving = false;
@@ -127,6 +133,14 @@ public class CarController : MonoBehaviour {
         }
     }
 
+    private void OnCollisionEnter(Collision collision) {
+        if (collision.gameObject.CompareTag("PedestrianCollision")) {
+            takeDamageWithReason("You hit a pedestrian!");
+        } else if (collision.gameObject.CompareTag("RegularObstacle")) {
+            takeDamageWithReason("You hit a road block!");
+        }
+    }
+
     public void madeChoice() {
         hasMadeChoice = true;
     }
@@ -137,14 +151,19 @@ public class CarController : MonoBehaviour {
         activeObstacle = null;
         if(activeUI != null) activeUI.gameObject.SetActive(false);
 
-        if (!hasMadeChoice && !other.CompareTag("LightObstacle")) {
-            takeDamage();
+        if (!hasMadeChoice && !other.CompareTag("LightObstacle") && !other.CompareTag("LaneObstacle")) {
+            takeDamageWithReason("You didn't make a choice in time.");
             hasMadeChoice = false;
         }
     }
 
     public void takeDamage() {
         health -= 1;
+    }
+    
+    public void takeDamageWithReason(string reason) {
+        health -= 1;
+        _alertController.alert("Game Over", reason, "OK");
     }
 
     public void switchLane(string lane) {
@@ -158,19 +177,19 @@ public class CarController : MonoBehaviour {
     }
 
     private IEnumerator spawnRandomChallenge(float time) {
-        var c = Random.Range(0, 35);
+        var c = Random.Range(0, 101);
         
         yield return new WaitForSeconds(time);
         
         if (c < 20) {
             Instantiate(trafficLightObstaclePrefab, (rb.position.Strip(true, false, false) + Vector3.forward * 25f), Quaternion.identity);
         } else if (c < 35) {
-            Instantiate(pedestrianObstaclePrefab, (rb.position.Strip(true, false, false) + Vector3.forward * 25f), Quaternion.identity);
+            Instantiate(pedestrianObstaclePrefab, (rb.position.Strip(true, false, false) + Vector3.forward * 35f), Quaternion.identity);
         } else if (c < 101) {
-            Instantiate(laneObstaclePrefab, (rb.position.Strip(true, false, false) + Vector3.forward * 25f), Quaternion.identity);
+            Instantiate(laneObstaclePrefab, (rb.position.Strip(true, false, false) + Vector3.forward * 15f), Quaternion.identity);
         }
 
-        StartCoroutine(spawnRandomChallenge(Random.Range(6f, 12f)));
+        StartCoroutine(spawnRandomChallenge(Random.Range(6f, 14f)));
     }
 
     Material carChoice()

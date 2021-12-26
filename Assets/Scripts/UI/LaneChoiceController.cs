@@ -23,6 +23,9 @@ namespace UI {
 
         private IEnumerator activeLightFlashCoroutine;
 
+        private bool signalingLeft;
+        private bool signalingRight;
+
         private bool _configured = false;
 
         private void OnEnable() {
@@ -39,10 +42,12 @@ namespace UI {
 
             buttonCooldown = 0f;
         }
-        
-        //TODO: Check signal before committing to turn
 
         public void left() {
+            if (!signalingLeft) {
+                StartCoroutine(noSignalCoroutine(0.5f));
+            }
+            
             if (buttonCooldown == 0) {
                 StartCoroutine(buttonCooldownCoroutine(0.5f));
                 carController.switchLane("left");
@@ -55,16 +60,22 @@ namespace UI {
                 StopCoroutine(activeLightFlashCoroutine);
                 rightSignalLight.SetActive(false);
                 leftSignalLight.SetActive(false);
+                signalingLeft = false;
+                signalingRight = false;
             }
 
             activeLightFlashCoroutine = lightFlashCoroutine(leftSignalLight, 0.15f);
             StartCoroutine(activeLightFlashCoroutine);
+            signalingLeft = true;
             if (buttonCooldown == 0) {
                 StartCoroutine(buttonCooldownCoroutine(0.5f));
             }
         }
 
         public void right() {
+            if (!signalingRight) {
+                StartCoroutine(noSignalCoroutine(0.5f));
+            }
             if (buttonCooldown == 0) {
                 StartCoroutine(buttonCooldownCoroutine(0.5f));
                 carController.switchLane("right");
@@ -77,10 +88,13 @@ namespace UI {
                 StopCoroutine(activeLightFlashCoroutine);
                 rightSignalLight.SetActive(false);
                 leftSignalLight.SetActive(false);
+                signalingLeft = false;
+                signalingRight = false;
             }
 
             activeLightFlashCoroutine = lightFlashCoroutine(rightSignalLight, 0.15f);
             StartCoroutine(activeLightFlashCoroutine);
+            signalingRight = true;
             if (buttonCooldown == 0) {
                 StartCoroutine(buttonCooldownCoroutine(0.5f));
             }
@@ -90,6 +104,11 @@ namespace UI {
             buttonCooldown = time;
             yield return new WaitForSeconds(time);
             buttonCooldown = 0;
+        }
+        
+        private IEnumerator noSignalCoroutine(float time) {
+            yield return new WaitForSeconds(time);
+            carController.takeDamageWithReason("You didn't signal correctly!");
         }
 
         private IEnumerator lightFlashCoroutine(GameObject led, float frequency) {
@@ -111,6 +130,7 @@ namespace UI {
                 delta += Time.deltaTime * multiplier;
                 yield return null;
             }
+            led.SetActive(false);
         }
     }
 }
